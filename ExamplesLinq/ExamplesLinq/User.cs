@@ -14,5 +14,10 @@ namespace ExamplesLinq
 
         public string Language { get; set; }
 
+        public void Print()
+        {
+            Console.WriteLine($"User {Name}, age {Age}, hobby {Hobby}, language {Language}");
+        }
+
     }
 }
