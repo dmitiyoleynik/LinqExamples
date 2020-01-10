@@ -27,7 +27,6 @@ namespace ExamplesLinq
             users2.Add(users1[1]);
             users2.Add(users1[2]);
             users2.Add(users1[3]);
-
             List<Phone> phones = new List<Phone>
             {
                 new Phone{Model = "IPhone", Price = 1000},
@@ -35,6 +34,7 @@ namespace ExamplesLinq
                 new Phone{Model = "Huawei", Price = 900},
                 new Phone{Model = "Nokia", Price = 500}
             };
+
             #region
             //SimpleWhere(users1);
             //ComplicatedWhere(users1);
@@ -48,6 +48,11 @@ namespace ExamplesLinq
             //Intersect(users1, users2);
             //Union(users1, users2);
             //Concat(users1, users2);
+            //Aggregate(users1);
+            //Count(users1);
+            //Sum(users1);
+            MinMaxAvagare(users1);
+
             #endregion
 
             //string[] strings = { "str1", "str2", "str3", "str4", "str5", "str6" };
@@ -59,6 +64,45 @@ namespace ExamplesLinq
 
         }
 
+        private static void MinMaxAvagare(List<User> users)
+        {
+            Console.WriteLine("LINQ methods min, max and avarage:");
+            Console.WriteLine("Prints min, max and avarage age value");
+
+            int min = users.Min(u => u.Age);
+            int max = users.Max(u => u.Age);
+            double avarage = users.Average(u => u.Age);
+
+            Console.WriteLine($"Min = {min}, max = {max}, avarage = {avarage}");
+
+        }
+
+        private static void Sum(List<User> users)
+        {
+            Console.WriteLine("LINQ method Sum:");
+            Console.WriteLine("Get sum of users ages");
+            int ageSum = users.Sum(u => u.Age);
+            Console.WriteLine($"Sum users age {ageSum}");
+        }
+
+        private static void Count(List<User> users)
+        {
+            Console.WriteLine("LINQ method Count:");
+            Console.WriteLine("Counts number of users 20+");
+
+            int count = users.Count(u => u.Age >= 20);
+            Console.WriteLine($"There is {count} users 20+");
+
+        }
+
+        private static void Aggregate(List<User> users)
+        {
+            Console.WriteLine("LINQ method aggregate:");
+            Console.WriteLine("Prints sum of users ages");
+
+            int sumAge = users.Select(u=>u.Age).Aggregate((x, y) => x + y);
+            Console.WriteLine($"Users age = {sumAge}");
+        }
 
         private static void Concat(List<User> users1, List<User> users2)
         {
