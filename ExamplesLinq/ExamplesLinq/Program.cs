@@ -20,6 +20,8 @@ namespace ExamplesLinq
 
             SimpleWhere(users);
             ComplicatedWhere(users);
+            SimpleSelect(users);
+            ComplicatedSelect(users);
 
         }
 
@@ -48,5 +50,42 @@ namespace ExamplesLinq
 
         }
 
+        static void SimpleSelect(List<User> users)
+        {
+            Console.WriteLine("LINQ method Select:");
+            Console.WriteLine("Select users names and languages");
+
+            var selectedValues = users.Select(x => new { x.Name, x.Language });
+
+            foreach (var userInfo in selectedValues)
+            {
+                Console.WriteLine($"{userInfo.Name}, {userInfo.Language}");
+            }
+        }
+
+        static void ComplicatedSelect(List<User> users)
+        {
+            Console.WriteLine("LINQ method select:");
+            Console.WriteLine("if user older 20 show hobby else show age");
+
+            var filteredList = users.Select(x => {
+                if (x.Age>20)
+                {
+                    return new { x.Name, value = x.Hobby };
+                } else
+                {
+                    return new { x.Name, value = x.Age.ToString() };
+                }
+            });
+            foreach (var item in filteredList)
+            {
+                Console.WriteLine($"{item.Name}, {item.value}");
+            }
+
+        }
+
     }
 }
+
+            //Console.WriteLine("LINQ method where:");
+            //Console.WriteLine("Filter users by age > 20 and name contain 'a'");
