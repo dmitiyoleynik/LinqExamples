@@ -17,6 +17,13 @@ namespace ExamplesLinq
                 new User { Name = "Bob", Age = 18, Hobby = "Basketball", Language = "RU"},
                 new User { Name = "Tom", Age = 25, Hobby = "Soccer", Language = "EN"}
             };
+            List<Phone> phones = new List<Phone>
+            {
+                new Phone{Model = "IPhone", Price = 1000},
+                new Phone{Model = "Samsung", Price = 1200},
+                new Phone{Model = "Huawei", Price = 900},
+                new Phone{Model = "Nokia", Price = 500}
+            };
 
             SimpleWhere(users);
             ComplicatedWhere(users);
@@ -81,6 +88,21 @@ namespace ExamplesLinq
             {
                 Console.WriteLine($"{item.Name}, {item.value}");
             }
+
+        }
+
+        static void SelectFromTwoLists(List<User> users,List<Phone> phones)
+        {
+            Console.WriteLine("LINQ method select:");
+            Console.WriteLine("Get pairs username + phonemodel");
+
+            //var resultList = users.SelectMany()
+
+            //foreach (var item in resultList)
+            //{
+            //    Console.WriteLine($"{item.Name}");
+            //}
+            //NOT FINISHED
 
         }
 
