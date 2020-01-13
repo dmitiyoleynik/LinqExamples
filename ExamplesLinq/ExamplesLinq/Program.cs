@@ -29,10 +29,10 @@ namespace ExamplesLinq
             users2.Add(users1[3]);
             List<Phone> phones = new List<Phone>
             {
-                new Phone{Model = "IPhone", Price = 1000},
-                new Phone{Model = "Samsung", Price = 1200},
-                new Phone{Model = "Huawei", Price = 900},
-                new Phone{Model = "Nokia", Price = 500}
+                new Phone{Model = "IPhone", Price = 1000, Language = "EN"},
+                new Phone{Model = "Samsung", Price = 1200, Language = "EN"},
+                new Phone{Model = "Huawei", Price = 900, Language = "UA"},
+                new Phone{Model = "Nokia", Price = 500, Language = "RU"}
             };
 
             #region
@@ -51,8 +51,17 @@ namespace ExamplesLinq
             //Aggregate(users1);
             //Count(users1);
             //Sum(users1);
-            MinMaxAvagare(users1);
-
+            //MinMaxAvagare(users1);
+            //Skip(users1);
+            //SkipWhile(users1);
+            //Take(users1);
+            //TakeWhile(users1);
+            //GroupBy(users1);
+            //GroupBy(users1);
+            //Join(users1, phones);
+            //Zip(users1, phones);
+            //All(users1);
+            //Any(users1);
             #endregion
 
             //string[] strings = { "str1", "str2", "str3", "str4", "str5", "str6" };
@@ -61,6 +70,189 @@ namespace ExamplesLinq
 
             //Console.WriteLine("LINQ method where:");
             //Console.WriteLine("Filter users by age > 20 and name contain 'a'");
+
+        }
+
+        private static void Any(List<User> users)
+        {
+            Console.WriteLine("LINQ method All:");
+            Console.WriteLine("Check if any user is 20+");
+
+            bool any = users.Any(u => u.Age >= 20);
+            Console.WriteLine(any);
+
+        }
+
+        private static void All(List<User> users)
+        {
+            Console.WriteLine("LINQ method All:");
+            Console.WriteLine("Check if all users 20+");
+
+            bool all = users.All(u => u.Age >= 20);
+
+            Console.WriteLine(all);
+
+        }
+
+        private static void Zip(List<User> users, List<Phone> phones)
+        {
+            Console.WriteLine("LINQ method Zip:");
+
+            var zipedList = users.Zip(phones,
+                (user, phone) => new
+                {
+                    Name = user.Name,
+                    Model = phone.Model
+                });
+
+            Console.WriteLine("Users:");
+            foreach (User user in users)
+            {
+                user.Print();
+            }
+
+            Console.WriteLine("Phones:");
+            foreach (Phone phone in phones)
+            {
+                phone.Print();
+            }
+
+            foreach (var zipedItem in zipedList)
+            {
+                Console.WriteLine($"{zipedItem.Name} - {zipedItem.Model}");
+            }
+
+
+        }
+
+        private static void Join(List<User> users, List<Phone> phones)
+        {
+            Console.WriteLine("LINQ method Join:");
+
+            Console.WriteLine("Users:");
+            foreach (User user in users)
+            {
+                user.Print();
+            }
+
+            Console.WriteLine("Phones:");
+            foreach (Phone phone in phones)
+            {
+                phone.Print();
+            }
+
+            Console.WriteLine("Join:");
+            var joined = users.Join(phones,
+                u => u.Language,
+                p => p.Language,
+                (u, p) => new { u.Name, p.Model });
+
+            foreach (var item in joined)
+            {
+                Console.WriteLine($"{item.Model}, {item.Name}");
+            }
+
+        }
+
+        private static void GroupBy(List<User> users)
+        {
+            Console.WriteLine("LINQ method GroupBy:");
+            Console.WriteLine("Group users by their hobby");
+
+            var groupedUsers = users.GroupBy(u => u.Hobby);
+
+            foreach (var usersGroup in groupedUsers)
+            {
+                Console.WriteLine($"{usersGroup.Key} : {usersGroup.Count()}");
+                foreach (User user in usersGroup)
+                {
+                    user.Print();
+                }
+            }
+
+        }
+
+        private static void TakeWhile(List<User> users)
+        {
+            Console.WriteLine("LINQ method TakeWhile:");
+            Console.WriteLine("Takes users while age > 20");
+
+            var oldUsers = users.TakeWhile(x => x.Age > 20);
+
+            Console.WriteLine("Users:");
+            foreach (User user in users)
+            {
+                user.Print();
+            }
+
+            Console.WriteLine("Old users:");
+            foreach (User user in oldUsers)
+            {
+                user.Print();
+            }
+
+        }
+
+        private static void SkipWhile(List<User> users)
+        {
+            Console.WriteLine("LINQ method SkipWhile:");
+            Console.WriteLine("Skips users while it's age more 20");
+
+            var SkipedList = users.SkipWhile(x => x.Age > 20);
+
+            Console.WriteLine("Users:");
+            foreach (User user in users)
+            {
+                user.Print();
+            }
+
+            Console.WriteLine("Skiped list:");
+            foreach (User user in SkipedList)
+            {
+                user.Print();
+            }
+
+        }
+
+        private static void Take(List<User> users)
+        {
+            Console.WriteLine("LINQ method Take:");
+            Console.WriteLine("Prints first 3 users");
+
+            var firstUsers = users.Take(3);
+
+            Console.WriteLine("Users:");
+            foreach (User user in users)
+            {
+                user.Print();
+            }
+
+            Console.WriteLine("First 3 users:");
+            foreach (User user in firstUsers)
+            {
+                user.Print();
+            }
+
+        }
+
+        private static void Skip(List<User> users)
+        {
+            Console.WriteLine("LINQ method Skip:");
+            Console.WriteLine("Prints users without first 3 users");
+
+            var skipedUsers = users.Skip(3);
+
+            Console.WriteLine("User list:");
+            foreach (User user in users)
+            {
+                user.Print();
+            }
+
+            Console.WriteLine("Skiped list:");
+            foreach (User user in skipedUsers)
+            {
+                user.Print();
+            }
 
         }
 
@@ -90,9 +282,10 @@ namespace ExamplesLinq
             Console.WriteLine("LINQ method Count:");
             Console.WriteLine("Counts number of users 20+");
 
+            Console.WriteLine($"All users number {users.Count()}");
+
             int count = users.Count(u => u.Age >= 20);
             Console.WriteLine($"There is {count} users 20+");
-
         }
 
         private static void Aggregate(List<User> users)
@@ -100,7 +293,7 @@ namespace ExamplesLinq
             Console.WriteLine("LINQ method aggregate:");
             Console.WriteLine("Prints sum of users ages");
 
-            int sumAge = users.Select(u=>u.Age).Aggregate((x, y) => x + y);
+            int sumAge = users.Select(u => u.Age).Aggregate((x, y) => x + y);
             Console.WriteLine($"Users age = {sumAge}");
         }
 
@@ -324,8 +517,6 @@ namespace ExamplesLinq
             }
 
         }
-
-
 
     }
 }

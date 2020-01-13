@@ -10,9 +10,11 @@ namespace ExamplesLinq
 
         public int Price { get; set; }
 
+        public string Language { get; set; }
+
         public void Print()
         {
-            Console.WriteLine($"Model {Model}, Price {Price}");
+            Console.WriteLine($"Model {Model}, Price {Price}, Language {Language}");
         }
 
     }
